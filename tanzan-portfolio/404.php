@@ -1,0 +1,1 @@
+<?php if(!defined('ABSPATH')){exit;} get_header(); ?><main id="main" class="wrap"><section class="content"><h1>ページが見つかりません。</h1><a class="button" href="<?php echo esc_url(home_url('/')); ?>">トップページへ戻る</a></section></main><?php get_footer(); ?>

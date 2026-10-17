@@ -1,0 +1,22 @@
+フォームタブに貼り付ける内容：
+<label>お名前（必須） [text* your-name autocomplete:name]</label>
+<label>メールアドレス（必須） [email* your-email autocomplete:email]</label>
+<label>ご相談内容（必須） [textarea* your-message]</label>
+[acceptance privacy-consent] お問い合わせ情報が返信・対応に使われることに同意します。 [/acceptance]
+[submit "お問い合わせを送信"]
+
+メール設定例（送信元は設置サイトと同じドメインの、利用可能なアドレスへ変更）：
+送信先：info@tanzanbooks.jp
+送信元：TANZAN Books <wordpress@YOUR-SITE-DOMAIN>
+題名：ポートフォリオへのお問い合わせ
+追加ヘッダー：Reply-To: [your-email]
+本文：
+お名前：[your-name]
+メール：[your-email]
+ご相談内容：
+[your-message]
+
+YOUR-SITE-DOMAINを実際のドメインに置換。受信者のアドレスをFromにしない。
+フォームIDは外観→カスタマイズ→お問い合わせフォームへ入力。
+SMTPはサーバー仕様に応じて設定し、認証情報はGitへ保存しない。
+送信成功表示だけでなく、受信箱への到達と返信先を確認する。
