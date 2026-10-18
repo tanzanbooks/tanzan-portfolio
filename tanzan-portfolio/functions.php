@@ -42,6 +42,10 @@ function tanzan_save_work($post_id) {
 }
 add_action('save_post_works','tanzan_save_work');
 function tanzan_customize($manager) {
+ $manager->add_section('tanzan_hero',array('title'=>'メインビジュアル'));
+ $manager->add_setting('tanzan_hero_image',array('default'=>'','sanitize_callback'=>'esc_url_raw'));
+ $manager->add_control(new WP_Customize_Image_Control($manager,'tanzan_hero_image',array('label'=>'背景画像','description'=>'未設定時は同梱の本棚イラストを表示します。横長の画像を推奨します。','section'=>'tanzan_hero')));
+
  $manager->add_section('tanzan_contact',array('title'=>'お問い合わせフォーム'));
  $manager->add_setting('tanzan_cf7_id',array('default'=>0,'sanitize_callback'=>'absint'));
  $manager->add_control('tanzan_cf7_id',array('label'=>'Contact Form 7 のフォームID（数字）','section'=>'tanzan_contact','type'=>'number','input_attrs'=>array('min'=>0)));
