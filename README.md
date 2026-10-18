@@ -56,3 +56,10 @@ HTML、CSS、JavaScript（標準DOM API）、PHP、WordPress、Contact Form 7。
 
 ## 閲覧・再現上の注意
 localhostのサイトは制作者のPC内の環境です。第三者が確認する際はWordPress環境へのテーマ導入と投稿・フォーム設定が必要です。GitHub PagesではPHPを実行できません。パスワードやメール認証情報、wp-config.phpはリポジトリに含めません。
+
+## 公開サイト
+
+https://portfolio.tanzanbooks.jp/
+
+ロリポップ上にオリジナルWordPressテーマを設置しています。
+お問い合わせフォームは、公開環境でメール受信まで確認済みです。
