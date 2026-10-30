@@ -1,73 +1,357 @@
-<?php if (!defined('ABSPATH')) {
+<?php
+if (!defined('ABSPATH')) {
     exit;
-    }
-     get_header();
-     ?><main id="main">
-<section class="library-hero" aria-labelledby="library-hero-title">
-  <div class="hero-bg-zoom" aria-hidden="true"<?php $hero_image=get_theme_mod('tanzan_hero_image',
-    '');
-     if($hero_image): ?> style="background-image:url('<?php echo esc_url($hero_image);
-     ?>')"<?php endif;
-     ?>></div>
-  <div class="hero-overlay"><div class="hero-content">
-    <span class="hero-subtitle">Book &amp; Community Event Producer</span>
-    <h1 class="hero-title" id="library-hero-title">物語が、ここから動き出す。</h1>
-    <p class="hero-description">私たちは、本と人と街を紡ぐイベントを企画・プロデュースしています。</p>
-    <a href="#works" class="hero-cta">制作実績を見る</a>
-  </div></div>
-</section>
-<section id="about" class="content"><div class="wrap section-head"><div><p class="eyebrow">01 / ABOUT</p><h2>人と現場を知る、<br>つくり手へ。</h2></div><div><h3>渥美 聡一郎 / Soichiro Atsumi</h3><p>京都大学法学部卒業、同大学院法学研究科修了。政策担当秘書、物流現場での仕事を経て、現在はTANZAN Booksとして書籍・図書館イベントの企画や地域の活動に取り組んでいます。</p><p>強みは、相手の話を聞き、課題を整理し、関係者をつないで実行に移すこと。Web制作では、使う方の視点を大切にしながらHTML・CSS・JavaScript・WordPressを学んでいます。</p><ul class="timeline"><li>2000年：京都大学法学部卒業</li><li>2002年：京都大学大学院法学研究科修了</li><li>2005〜2009年：国会議員政策担当秘書</li><li>2010年～2020年：物流業界</li><li>2020年4月個人事業主として独立</li><li>現在：書籍・地域イベントプロデューサー / TANZAN Books</li></ul></div></div></section>
-<section id="skills" class="content"><div class="wrap"><p class="eyebrow">02 / SKILLS</p><h2>企画の力に、技術を重ねる。</h2><p class="muted">自己評価の学習段階です。1：学習中 / 2：基礎演習 / 3：制作で活用 / 4：継続した実務経験。習熟度の百分率ではありません。</p><div class="skills"><article class="skill"><h3>企画・要件整理</h3><label>企画・要件整理：段階4<progress value="4" max="4">4/4</progress></label><p class="muted">政策・地域活動で培った調整と実行力</p></article><article class="skill"><h3>HTML / CSS</h3><label>HTML / CSS：段階2<progress value="2" max="4">2/4</progress></label><p class="muted">レスポンシブな画面づくりを学習</p></article><article class="skill"><h3>JavaScript</h3><label>JavaScript：段階2<progress value="2" max="4">2/4</progress></label><p class="muted">イベント処理とUIの基礎を学習</p></article><article class="skill"><h3>WordPress</h3><label>WordPress：段階1<progress value="1" max="4">1/4</progress></label><p class="muted">オリジナルテーマ制作に挑戦</p></article><article class="skill"><h3>Python / SQL</h3><label>Python / SQL：段階2<progress value="2" max="4">2/4</progress></label><p class="muted">スクレイピング・データベースの演習</p></article><article class="skill"><h3>本・図書館・地域</h3><label>本・図書館・地域：段階4<progress value="4" max="4">4/4</progress></label><p class="muted">イベント企画とコミュニティ運営</p></article></div></div></section>
-<section id="works" class="content"><div class="wrap"><p class="eyebrow">03 / WORKS</p><h2>制作と活動の記録。</h2><p>画像またはタイトルをクリックすると詳細が開きます。</p><div class="works-grid">
-<?php $works=new WP_Query(array('post_type'=>'works',
-    'post_status'=>'publish',
-    'posts_per_page'=>6,
-    'orderby'=>'date',
-    'order'=>'DESC',
-    'no_found_rows'=>true));
-if($works->have_posts()): while($works->have_posts()): $works->the_post();
-     $target='work-'.get_the_ID();
-     ?>
-<article class="work-card"><button class="work-open" type="button" data-work-target="<?php echo esc_attr($target);
-     ?>" aria-haspopup="dialog" aria-label="<?php echo esc_attr(get_the_title().'の詳細を開く');
-     ?>"><span class="work-cover"><?php if(has_post_thumbnail()): echo wp_kses_post(get_the_post_thumbnail(get_the_ID(),
-    'medium_large',
-    array('alt'=>get_the_title(),
-    'loading'=>'lazy')));
-     else: ?><span aria-hidden="true">本</span><?php endif;
-     ?></span><span class="work-label"><?php echo esc_html(get_the_title());
-     ?></span></button><noscript><a href="<?php echo esc_url(get_permalink());
-     ?>">詳細ページを読む</a></noscript></article>
-<template id="<?php echo esc_attr($target);
-     ?>"><h2 id="modal-title"><?php echo esc_html(get_the_title());
-     ?></h2><dl><?php foreach(array('technology'=>'使用技術',
-    'period'=>'制作期間',
-    'role'=>'担当範囲') as $key=>$label): $value=get_post_meta(get_the_ID(),
-    '_tanzan_'.$key,
-    true);
-     if($value): ?><dt><?php echo esc_html($label);
-     ?></dt><dd><?php echo esc_html($value);
-     ?></dd><?php endif;
-     endforeach;
-     ?></dl><div><?php echo wp_kses_post(apply_filters('the_content',
-    get_the_content()));
-     ?></div><?php $url=get_post_meta(get_the_ID(),
-    '_tanzan_project_url',
-    true);
-     if(esc_url($url)): ?><p><a href="<?php echo esc_url($url);
-     ?>" target="_blank" rel="noopener noreferrer">公開サイトを見る ↗</a></p><?php endif;
-     ?></template>
-<?php endwhile;
-     else: ?><p>制作実績は準備中です。</p><?php endif;
-     wp_reset_postdata();
-     ?></div></div></section>
-<section id="contact" class="content"><div class="wrap contact-layout"><div><p class="eyebrow">04 / CONTACT</p><h2>お話を聞かせて<br>ください。</h2><p>Webサイトづくり、書籍・図書館イベント、地域の企画について、お気軽にご相談ください。</p><a href="mailto:info@tanzanbooks.jp">info@tanzanbooks.jp</a><p class="muted">お問い合わせ情報は、ご相談への返信・対応のために利用します。</p></div><div><?php $form_id=absint(get_theme_mod('tanzan_cf7_id',
-    0));
-     if($form_id && function_exists('wpcf7_contact_form') && wpcf7_contact_form($form_id)) {
-     /* CF7の生成するフォームHTMLはプラグインに委ねる。esc_htmlやwp_kses_postではフォームを破壊する。 */ echo do_shortcode('[contact-form-7 id="'.$form_id.'"]');
-     }
-     else {
-     ?><p>お問い合わせは上記メールアドレスへお寄せください。</p><?php if(current_user_can('edit_theme_options')): ?><p class="muted">管理者向け：Contact Form 7を有効化し、外観 → カスタマイズ → お問い合わせフォームにフォームIDを入力してください。</p><?php endif;
-     }
-     ?></div></div></section></main><?php get_footer();
-     ?>
+}
+
+get_header();
+?>
+
+<main id="main">
+    <section class="library-hero" aria-labelledby="library-hero-title">
+        <?php
+        $hero_image = get_theme_mod('tanzan_hero_image', '');
+        ?>
+
+        <div
+            class="hero-bg-zoom"
+            aria-hidden="true"
+            <?php if ($hero_image) : ?>
+                style="background-image: url('<?php echo esc_url($hero_image); ?>')"
+            <?php endif; ?>
+        ></div>
+
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <span class="hero-subtitle">
+                    Book &amp; Community Event Producer
+                </span>
+
+                <h1 class="hero-title" id="library-hero-title">
+                    物語が、ここから動き出す。
+                </h1>
+
+                <p class="hero-description">
+                    私たちは、本と人と街を紡ぐイベントを企画・プロデュースしています。
+                </p>
+
+                <a href="#works" class="hero-cta">制作実績を見る</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="content">
+        <div class="wrap section-head">
+            <div>
+                <p class="eyebrow">01 / ABOUT</p>
+                <h2>人と現場を知る、<br>つくり手へ。</h2>
+            </div>
+
+            <div>
+                <h3>渥美 聡一郎 / Soichiro Atsumi</h3>
+
+                <p>
+                    京都大学法学部卒業、同大学院法学研究科修了。政策担当秘書、物流現場での仕事を経て、現在はTANZAN Booksとして書籍・図書館イベントの企画や地域の活動に取り組んでいます。
+                </p>
+
+                <p>
+                    強みは、相手の話を聞き、課題を整理し、関係者をつないで実行に移すこと。Web制作では、使う方の視点を大切にしながらHTML・CSS・JavaScript・WordPressを学んでいます。
+                </p>
+
+                <ul class="timeline">
+                    <li>2000年：京都大学法学部卒業</li>
+                    <li>2002年：京都大学大学院法学研究科修了</li>
+                    <li>2005〜2009年：国会議員政策担当秘書</li>
+                    <li>2010年～2020年：物流業界</li>
+                    <li>2020年4月個人事業主として独立</li>
+                    <li>現在：書籍・地域イベントプロデューサー / TANZAN Books</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="content">
+        <div class="wrap">
+            <p class="eyebrow">02 / SKILLS</p>
+            <h2>企画の力に、技術を重ねる。</h2>
+
+            <p class="muted">
+                自己評価の学習段階です。1：学習中 / 2：基礎演習 / 3：制作で活用 / 4：継続した実務経験。習熟度の百分率ではありません。
+            </p>
+
+            <div class="skills">
+                <article class="skill">
+                    <h3>企画・要件整理</h3>
+
+                    <label>
+                        企画・要件整理：段階4
+                        <progress value="4" max="4">4/4</progress>
+                    </label>
+
+                    <p class="muted">
+                        政策・地域活動で培った調整と実行力
+                    </p>
+                </article>
+
+                <article class="skill">
+                    <h3>HTML / CSS</h3>
+
+                    <label>
+                        HTML / CSS：段階2
+                        <progress value="2" max="4">2/4</progress>
+                    </label>
+
+                    <p class="muted">
+                        レスポンシブな画面づくりを学習
+                    </p>
+                </article>
+
+                <article class="skill">
+                    <h3>JavaScript</h3>
+
+                    <label>
+                        JavaScript：段階2
+                        <progress value="2" max="4">2/4</progress>
+                    </label>
+
+                    <p class="muted">
+                        イベント処理とUIの基礎を学習
+                    </p>
+                </article>
+
+                <article class="skill">
+                    <h3>WordPress</h3>
+
+                    <label>
+                        WordPress：段階1
+                        <progress value="1" max="4">1/4</progress>
+                    </label>
+
+                    <p class="muted">
+                        オリジナルテーマ制作に挑戦
+                    </p>
+                </article>
+
+                <article class="skill">
+                    <h3>Python / SQL</h3>
+
+                    <label>
+                        Python / SQL：段階2
+                        <progress value="2" max="4">2/4</progress>
+                    </label>
+
+                    <p class="muted">
+                        スクレイピング・データベースの演習
+                    </p>
+                </article>
+
+                <article class="skill">
+                    <h3>本・図書館・地域</h3>
+
+                    <label>
+                        本・図書館・地域：段階4
+                        <progress value="4" max="4">4/4</progress>
+                    </label>
+
+                    <p class="muted">
+                        イベント企画とコミュニティ運営
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="works" class="content">
+        <div class="wrap">
+            <p class="eyebrow">03 / WORKS</p>
+            <h2>制作と活動の記録。</h2>
+            <p>画像またはタイトルをクリックすると詳細が開きます。</p>
+
+            <div class="works-grid">
+                <?php
+                $works = new WP_Query(
+                    array(
+                        'post_type'      => 'works',
+                        'post_status'    => 'publish',
+                        'posts_per_page' => 6,
+                        'orderby'        => 'date',
+                        'order'          => 'DESC',
+                        'no_found_rows'  => true,
+                    )
+                );
+                ?>
+
+                <?php if ($works->have_posts()) : ?>
+                    <?php
+                    while ($works->have_posts()) :
+                        $works->the_post();
+
+                        $target = 'work-' . get_the_ID();
+                        ?>
+
+                        <article class="work-card">
+                            <button
+                                class="work-open"
+                                type="button"
+                                data-work-target="<?php echo esc_attr($target); ?>"
+                                aria-haspopup="dialog"
+                                aria-label="<?php echo esc_attr(get_the_title() . 'の詳細を開く'); ?>"
+                            >
+                                <span class="work-cover">
+                                    <?php
+                                    if (has_post_thumbnail()) :
+                                        echo wp_kses_post(
+                                            get_the_post_thumbnail(
+                                                get_the_ID(),
+                                                'medium_large',
+                                                array(
+                                                    'alt'     => get_the_title(),
+                                                    'loading' => 'lazy',
+                                                )
+                                            )
+                                        );
+                                    else :
+                                        ?>
+                                        <span aria-hidden="true">本</span>
+                                    <?php endif; ?>
+                                </span>
+
+                                <span class="work-label">
+                                    <?php echo esc_html(get_the_title()); ?>
+                                </span>
+                            </button>
+
+                            <noscript>
+                                <a href="<?php echo esc_url(get_permalink()); ?>">
+                                    詳細ページを読む
+                                </a>
+                            </noscript>
+                        </article>
+
+                        <template id="<?php echo esc_attr($target); ?>">
+                            <h2 id="modal-title">
+                                <?php echo esc_html(get_the_title()); ?>
+                            </h2>
+
+                            <dl>
+                                <?php
+                                $work_fields = array(
+                                    'technology' => '使用技術',
+                                    'period'     => '制作期間',
+                                    'role'       => '担当範囲',
+                                );
+
+                                foreach ($work_fields as $key => $label) :
+                                    $value = get_post_meta(
+                                        get_the_ID(),
+                                        '_tanzan_' . $key,
+                                        true
+                                    );
+                                    ?>
+
+                                    <?php if ($value) : ?>
+                                        <dt>
+                                            <?php echo esc_html($label); ?>
+                                        </dt>
+                                        <dd>
+                                            <?php echo esc_html($value); ?>
+                                        </dd>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </dl>
+
+                            <div>
+                                <?php
+                                echo wp_kses_post(
+                                    apply_filters(
+                                        'the_content',
+                                        get_the_content()
+                                    )
+                                );
+                                ?>
+                            </div>
+
+                            <?php
+                            $url = get_post_meta(
+                                get_the_ID(),
+                                '_tanzan_project_url',
+                                true
+                            );
+                            ?>
+
+                            <?php if (esc_url($url)) : ?>
+                                <p>
+                                    <a
+                                        href="<?php echo esc_url($url); ?>"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        公開サイトを見る ↗
+                                    </a>
+                                </p>
+                            <?php endif; ?>
+                        </template>
+                    <?php endwhile; ?>
+                <?php else : ?>
+                    <p>制作実績は準備中です。</p>
+                <?php endif; ?>
+
+                <?php wp_reset_postdata(); ?>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="content">
+        <div class="wrap contact-layout">
+            <div>
+                <p class="eyebrow">04 / CONTACT</p>
+                <h2>お話を聞かせて<br>ください。</h2>
+
+                <p>
+                    Webサイトづくり、書籍・図書館イベント、地域の企画について、お気軽にご相談ください。
+                </p>
+
+                <a href="mailto:info@tanzanbooks.jp">
+                    info@tanzanbooks.jp
+                </a>
+
+                <p class="muted">
+                    お問い合わせ情報は、ご相談への返信・対応のために利用します。
+                </p>
+            </div>
+
+            <div>
+                <?php
+                $form_id = absint(
+                    get_theme_mod('tanzan_cf7_id', 0)
+                );
+
+                if (
+                    $form_id
+                    && function_exists('wpcf7_contact_form')
+                    && wpcf7_contact_form($form_id)
+                ) {
+                    /*
+                     * CF7の生成するフォームHTMLはプラグインに委ねる。
+                     * esc_htmlやwp_kses_postではフォームを破壊する。
+                     */
+                    echo do_shortcode(
+                        '[contact-form-7 id="' . $form_id . '"]'
+                    );
+                } else {
+                    ?>
+                    <p>
+                        お問い合わせは上記メールアドレスへお寄せください。
+                    </p>
+
+                    <?php if (current_user_can('edit_theme_options')) : ?>
+                        <p class="muted">
+                            管理者向け：Contact Form 7を有効化し、外観 → カスタマイズ → お問い合わせフォームにフォームIDを入力してください。
+                        </p>
+                    <?php endif; ?>
+                <?php } ?>
+            </div>
+        </div>
+    </section>
+</main>
+
+<?php get_footer(); ?>
